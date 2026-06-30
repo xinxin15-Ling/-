@@ -1,5 +1,3 @@
-@import url("https://ik.imagekit.io/fonts120/packages/crgkk/dist/%E7%A8%8B%E8%8D%A3%E5%85%89%E5%88%BB%E6%A5%B7/result.css");
-
 :root {
   --bg: #fbfefd;
   --ink: #24313f;
@@ -11,7 +9,7 @@
   --line: #d9f0ea;
   --panel: rgba(255, 255, 255, 0.86);
   --shadow: 0 18px 50px rgba(64, 132, 146, 0.12);
-  --art-font: "chengrongguangke", "YouYuan", "Microsoft YaHei UI", "Microsoft YaHei", "PingFang SC", sans-serif;
+  --art-font: "SimSun", "宋体", "STSong", serif;
 }
 
 * {
