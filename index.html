@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>凌鑫燕的个人主页</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    body.home {
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    .home-wrap {
+      position: relative;
+      min-height: 100vh;
+      display: grid;
+      align-items: center;
+      padding: 40px 0 26px;
+      isolation: isolate;
+    }
+
+    .spring-scene {
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      overflow: hidden;
+      pointer-events: none;
+    }
+
+    .spring-scene::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(115deg, rgba(255, 255, 255, 0.96), rgba(248, 255, 252, 0.8) 42%, rgba(237, 249, 255, 0.78)),
+        radial-gradient(circle at 18% 24%, rgba(198, 246, 213, 0.58), transparent 26rem),
+        radial-gradient(circle at 86% 18%, rgba(190, 227, 248, 0.58), transparent 24rem),
+        radial-gradient(circle at 52% 92%, rgba(176, 232, 205, 0.34), transparent 28rem);
+    }
+
+    .spring-scene::after {
+      content: "";
+      position: absolute;
+      inset: -20%;
+      background:
+        linear-gradient(115deg, transparent 8%, rgba(255, 255, 255, 0.54) 18%, transparent 34%),
+        linear-gradient(68deg, transparent 38%, rgba(190, 227, 248, 0.18) 48%, transparent 63%);
+      mix-blend-mode: screen;
+      animation: lightSweep 15s ease-in-out infinite alternate;
+    }
+
+    @keyframes lightSweep {
+      0% { transform: translate3d(-5%, -2%, 0) rotate(-3deg); opacity: 0.55; }
+      100% { transform: translate3d(6%, 3%, 0) rotate(4deg); opacity: 0.95; }
+    }
+
+    .tree {
+      position: absolute;
+      right: clamp(-110px, -4vw, -34px);
+      top: clamp(8px, 4vh, 40px);
+      width: clamp(310px, 42vw, 620px);
+      height: clamp(420px, 84vh, 760px);
+      border-radius: 0 0 0 48px;
+      overflow: hidden;
+      opacity: 0.58;
+      filter: saturate(1.15) contrast(1.02);
+      box-shadow: -34px 38px 90px rgba(87, 160, 119, 0.18);
+      animation: realTreeFloat 12s ease-in-out infinite;
+    }
+
+    .tree img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transform: scale(1.04);
+    }
+
+    .tree::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(90deg, rgba(255, 255, 255, 0.66), rgba(255, 255, 255, 0.16) 45%, rgba(255, 255, 255, 0)),
+        linear-gradient(180deg, rgba(236, 255, 244, 0.2), rgba(251, 254, 253, 0.5));
+      z-index: 1;
+    }
+
+    @keyframes realTreeFloat {
+      0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
+      50% { transform: translate3d(-8px, 10px, 0) scale(1.01); }
+    }
+
+    .leaf,
+    .bubble,
+    .glow-dot {
+      position: absolute;
+      display: block;
+      opacity: 0;
+      will-change: transform, opacity;
+    }
+
+    .leaf {
+      top: -10vh;
+      width: var(--size);
+      height: calc(var(--size) * 0.58);
+      border-radius: 80% 0 80% 0;
+      background: linear-gradient(135deg, rgba(181, 232, 195, 0.92), rgba(141, 206, 184, 0.88));
+      box-shadow: inset 8px 0 12px rgba(255, 255, 255, 0.28);
+      transform: rotate(var(--angle));
+      animation: leafFall var(--duration) linear infinite;
+      animation-delay: var(--delay);
+    }
+
+    @keyframes leafFall {
+      0% { opacity: 0; transform: translate3d(0, -8vh, 0) rotate(var(--angle)); }
+      12% { opacity: 0.75; }
+      100% { opacity: 0; transform: translate3d(var(--drift), 112vh, 0) rotate(calc(var(--angle) + 280deg)); }
+    }
+
+    .bubble {
+      bottom: -80px;
+      width: var(--size);
+      height: var(--size);
+      border-radius: 50%;
+      border: 1px solid rgba(127, 197, 220, 0.28);
+      background: radial-gradient(circle at 32% 28%, rgba(255, 255, 255, 0.92), rgba(211, 242, 252, 0.24) 58%, rgba(188, 232, 217, 0.16));
+      animation: bubbleRise var(--duration) ease-in-out infinite;
+      animation-delay: var(--delay);
+    }
+
+    @keyframes bubbleRise {
+      0% { opacity: 0; transform: translate3d(0, 0, 0) scale(0.7); }
+      18% { opacity: 0.66; }
+      100% { opacity: 0; transform: translate3d(var(--drift), -112vh, 0) scale(1.14); }
+    }
+
+    .glow-dot {
+      width: var(--size);
+      height: var(--size);
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(255, 255, 255, 0.86), rgba(176, 232, 205, 0.24) 60%, transparent 72%);
+      animation: glowDrift var(--duration) ease-in-out infinite;
+      animation-delay: var(--delay);
+    }
+
+    @keyframes glowDrift {
+      0%, 100% { opacity: 0.08; transform: translate3d(0, 0, 0) scale(0.82); }
+      42% { opacity: 0.7; }
+      70% { opacity: 0.36; transform: translate3d(var(--drift), -34px, 0) scale(1.18); }
+    }
+
+    .hero {
+      width: min(1120px, calc(100% - 40px));
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: minmax(0, 1.04fr) minmax(290px, 0.7fr);
+      gap: clamp(26px, 5vw, 64px);
+      align-items: center;
+    }
+
+    .hero-copy {
+      padding: clamp(10px, 3vw, 34px) 0;
+    }
+
+    .hero-kicker {
+      position: relative;
+      width: fit-content;
+      margin: 0 0 18px;
+      color: #24313f;
+      background: none;
+      font-family: var(--art-font);
+      font-size: clamp(3.4rem, 9vw, 8rem);
+      font-weight: 400;
+      line-height: 0.98;
+      letter-spacing: 0;
+      text-shadow: 0 18px 38px rgba(72, 160, 145, 0.18), 0 1px 0 rgba(255, 255, 255, 0.82);
+      filter: none;
+    }
+
+    .hero-kicker::after {
+      content: "";
+      position: absolute;
+      left: 4%;
+      right: 8%;
+      bottom: -10px;
+      height: 16px;
+      border-radius: 999px;
+      background: linear-gradient(90deg, rgba(174, 230, 195, 0.72), rgba(157, 215, 243, 0.2));
+      filter: blur(6px);
+      z-index: -1;
+    }
+
+    .hero h1 {
+      margin: 0;
+      font-size: clamp(1.35rem, 3.4vw, 2.7rem);
+      line-height: 1.1;
+      letter-spacing: 0;
+      color: #24313f;
+      font-weight: 400;
+      font-family: var(--art-font);
+      text-shadow: 0 12px 28px rgba(64, 132, 146, 0.12);
+    }
+
+    .motto {
+      display: block;
+      margin-top: 14px;
+      color: #418db3;
+      font-size: clamp(1.35rem, 3vw, 2.2rem);
+      font-weight: 400;
+      font-family: var(--art-font);
+      text-shadow: 0 10px 24px rgba(64, 132, 146, 0.12);
+    }
+
+    .hero-lead {
+      max-width: 650px;
+      margin: 28px 0 0;
+      color: #526777;
+      font-size: clamp(1rem, 2vw, 1.18rem);
+      font-family: var(--art-font);
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 30px;
+    }
+
+    .primary-link {
+      color: #ffffff;
+      background: linear-gradient(135deg, #48ad91, #55a8d5);
+      border-color: transparent;
+    }
+
+    .intro-panel {
+      padding: 24px;
+      border: 1px solid rgba(213, 238, 233, 0.92);
+      border-radius: 8px;
+      background:
+        linear-gradient(145deg, rgba(255, 255, 255, 0.88), rgba(246, 255, 251, 0.76)),
+        radial-gradient(circle at 12% 8%, rgba(198, 246, 213, 0.4), transparent 12rem);
+      box-shadow: 0 24px 70px rgba(64, 132, 146, 0.16);
+      backdrop-filter: blur(20px);
+    }
+
+    .intro-panel h2 {
+      margin-bottom: 10px;
+      font-size: 1.25rem;
+      color: #24313f;
+      font-family: var(--art-font);
+      font-weight: 400;
+      text-shadow: 0 8px 20px rgba(64, 132, 146, 0.11);
+    }
+
+    .quick-list {
+      display: grid;
+      gap: 12px;
+      margin: 20px 0 0;
+    }
+
+    .quick-list a {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      min-height: 54px;
+      padding: 12px 14px;
+      border-radius: 8px;
+      text-decoration: none;
+      color: #31495a;
+      border: 1px solid rgba(213, 238, 233, 0.9);
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.88), rgba(245, 253, 255, 0.88));
+      transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+      font-weight: 800;
+    }
+
+    .quick-list a:hover {
+      transform: translateX(4px);
+      border-color: rgba(174, 230, 195, 0.95);
+      box-shadow: 0 14px 32px rgba(76, 150, 150, 0.12);
+    }
+
+    .quick-list span:last-child {
+      color: #48a083;
+    }
+
+    @media (max-width: 860px) {
+      .home-wrap {
+        align-items: start;
+        padding-top: 54px;
+      }
+
+      .hero {
+        grid-template-columns: 1fr;
+      }
+
+      .tree {
+        left: auto;
+        right: -92px;
+        top: -12px;
+        width: 290px;
+        height: 410px;
+        opacity: 0.34;
+      }
+    }
+
+    @media (max-width: 560px) {
+      .hero {
+        width: min(100% - 28px, 1120px);
+      }
+
+      .hero-actions .pill-link {
+        flex: 1 1 100%;
+      }
+
+      .intro-panel {
+        padding: 18px;
+      }
+    }
+  </style>
+</head>
+<body class="home">
+  <main class="home-wrap">
+    <div class="spring-scene" aria-hidden="true">
+      <div class="tree">
+        <picture>
+          <source srcset="assets/real-tree.webp" type="image/webp">
+          <img src="assets/real-tree.jpg" alt="">
+        </picture>
+      </div>
+      <span class="leaf" style="left:8%; --size:24px; --duration:17s; --delay:-3s; --drift:68px; --angle:18deg;"></span>
+      <span class="leaf" style="left:20%; --size:18px; --duration:14s; --delay:-9s; --drift:-46px; --angle:72deg;"></span>
+      <span class="leaf" style="left:42%; --size:22px; --duration:18s; --delay:-6s; --drift:86px; --angle:40deg;"></span>
+      <span class="leaf" style="left:63%; --size:16px; --duration:13s; --delay:-11s; --drift:-58px; --angle:110deg;"></span>
+      <span class="leaf" style="left:78%; --size:26px; --duration:19s; --delay:-5s; --drift:48px; --angle:35deg;"></span>
+      <span class="leaf" style="left:91%; --size:19px; --duration:15s; --delay:-13s; --drift:-92px; --angle:86deg;"></span>
+      <span class="bubble" style="left:12%; --size:46px; --duration:16s; --delay:-7s; --drift:38px;"></span>
+      <span class="bubble" style="left:32%; --size:28px; --duration:13s; --delay:-1s; --drift:-50px;"></span>
+      <span class="bubble" style="left:55%; --size:54px; --duration:19s; --delay:-10s; --drift:70px;"></span>
+      <span class="bubble" style="left:74%; --size:34px; --duration:14s; --delay:-4s; --drift:-44px;"></span>
+      <span class="bubble" style="left:88%; --size:24px; --duration:12s; --delay:-8s; --drift:30px;"></span>
+      <span class="glow-dot" style="left:9%; top:20%; --size:110px; --duration:12s; --delay:-4s; --drift:36px;"></span>
+      <span class="glow-dot" style="left:48%; top:11%; --size:82px; --duration:15s; --delay:-9s; --drift:-52px;"></span>
+      <span class="glow-dot" style="left:78%; top:68%; --size:130px; --duration:18s; --delay:-6s; --drift:44px;"></span>
+    </div>
+
+    <section class="hero">
+      <div class="hero-copy">
+        <p class="hero-kicker">个人介绍</p>
+        <h1>姓名：凌鑫燕<span class="motto">个性签名：知命不惧，日日自新</span></h1>
+        <p class="hero-lead">社会学硕士在读，关注内容运营、用户增长、AIGC 创作与社会观察。把学术训练里的结构化分析，转化为更有温度也更有效率的内容表达。</p>
+        <div class="hero-actions">
+          <a class="pill-link primary-link" href="profile.html">查看个人信息</a>
+          <a class="pill-link" href="portfolio.html">浏览作品展示</a>
+        </div>
+      </div>
+
+      <aside class="intro-panel">
+        <h2>网站导航</h2>
+        <p>从简历信息、兴趣爱好、实习经历、项目成果到新媒体与 AIGC 作品，完整呈现个人能力结构。</p>
+        <nav class="quick-list" aria-label="页面导航">
+          <a href="profile.html"><span>个人信息</span><span>→</span></a>
+          <a href="hobbies.html"><span>兴趣爱好</span><span>→</span></a>
+          <a href="internship.html"><span>实习经历</span><span>→</span></a>
+          <a href="projects.html"><span>项目经历</span><span>→</span></a>
+          <a href="portfolio.html"><span>作品展示</span><span>→</span></a>
+        </nav>
+        <div class="hero-actions">
+          <a class="pill-link" href="assets/ling-xinyan-resume.pdf" target="_blank">查看简历 PDF</a>
+          <a class="pill-link" href="assets/ling-xinyan-portfolio.pdf" target="_blank">查看作品集 PDF</a>
+        </div>
+      </aside>
+    </section>
+  </main>
+</body>
+</html>
